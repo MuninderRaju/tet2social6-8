@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TS TET Social Studies (60 Marks)</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #fdf5e6; padding: 20px; color: #333; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #8d6e63; } /* Earthy brown for Social Studies */
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #fdf5e6; margin: 0; padding: 0; color: #333; display: flex; flex-direction: column; min-height: 100vh;}
+        .container { max-width: 900px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #8d6e63; flex: 1; } 
         h1 { text-align: center; color: #5d4037; margin-bottom: 5px; }
         
         /* Timer Styles */
@@ -49,6 +49,29 @@
             font-weight: bold; transition: background 0.3s;
         }
         button.submit-btn:hover { background-color: #3e2723; }
+
+        /* FOOTER STYLES */
+        .footer {
+            background-color: #3e2723;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+            border-top: 4px solid #8d6e63;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .footer strong {
+            color: #ffcc80;
+            font-size: 18px;
+        }
+        .footer .school-name {
+            font-size: 14px;
+            color: #cfd8dc;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +95,13 @@
         <p>Scroll down to see the correct answers.</p>
         <button onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; background: #6c757d; color: white; border: none; border-radius: 5px;">Re-take Test</button>
     </div>
+</div>
+
+<div class="footer">
+    <p>Concept & Design by:</p>
+    <p><strong>Gazetted Headmaster</strong></p>
+    <p class="school-name">ZPHS CHINCHOLI B, Nirmal Dist.</p>
+    <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">web: Abhyasa Vedika</p>
 </div>
 
 <script>
@@ -102,7 +132,7 @@
         { q_eng: "The longest river in Peninsular India (Dakshin Ganga)?", q_tel: "ద్వీపకల్ప భారతదేశంలో అతి పొడవైన నది?", options: ["Krishna", "Godavari", "Cauvery", "Mahanadi"], ans: 1 },
         { q_eng: "Black soils are most suitable for which crop?", q_tel: "నల్లరేగడి నేలలు ఏ పంటకు అనుకూలం?", options: ["Rice", "Cotton (పత్తి)", "Tea", "Wheat"], ans: 1 },
         { q_eng: "The Palk Strait separates India from?", q_tel: "పాక్ జలసంధి భారతదేశాన్ని ఏ దేశం నుండి వేరు చేస్తుంది?", options: ["Pakistan", "Sri Lanka", "Maldives", "Bangladesh"], ans: 1 },
-        { q_eng: "Which is the highest peak in Telangana?", q_tel: "తెలంగాణలో ఎత్తైన శిఖరం?", options: ["Doli Gutta", "Anamudi", "Doddabetta", "Armakonda"], ans: 0 }, // Doli Gutta in Jayashankar Bhupalpally/Mulugu
+        { q_eng: "Which is the highest peak in Telangana?", q_tel: "తెలంగాణలో ఎత్తైన శిఖరం?", options: ["Doli Gutta", "Anamudi", "Doddabetta", "Armakonda"], ans: 0 }, 
         { q_eng: "Tsunami is caused by?", q_tel: "సునామీ దేని వల్ల ఏర్పడుతుంది?", options: ["Undersea Earthquakes", "Winds", "Tides", "Cyclones"], ans: 0 },
         { q_eng: "Kharif season starts in?", q_tel: "ఖరీఫ్ పంట కాలం ఎప్పుడు మొదలవుతుంది?", options: ["June-July", "October-November", "January-February", "March-April"], ans: 0 },
         { q_eng: "Which river flows through a rift valley?", q_tel: "పగులు లోయ గుండా ప్రవహించే నది?", options: ["Ganga", "Narmada", "Godavari", "Yamuna"], ans: 1 },
@@ -135,12 +165,12 @@
         { q_eng: "Which method is also known as 'Lecture Method'?", q_tel: "'ఉపన్యాస పద్ధతి'కి గల మరొక పేరు?", options: ["Chalk and Talk Method", "Project Method", "Heuristic Method", "Source Method"], ans: 0 },
         { q_eng: "Micro-teaching focuses on?", q_tel: "సూక్ష్మ బోధన (Micro-teaching) దీనిపై దృష్టి పెడుతుంది?", options: ["Content mastery", "Specific teaching skill", "Classroom management", "All the above"], ans: 1 },
         { q_eng: "Edgar Dale's Cone of Experience is related to?", q_tel: "ఎడ్గార్ డేల్ అనుభవ శంకువు దేనికి సంబంధించింది?", options: ["Evaluation", "TLM (Teaching Learning Material)", "Curriculum", "Objectives"], ans: 1 },
-        { q_eng: "Which is not a quality of a good test?", q_tel: "మంచి పరీక్షకు ఉండవలసిన లక్షణం కానిది?", options: ["Validity", "Reliability", "Subjectivity", "Objectivity"], ans: 2 }, // Subjectivity is bad
+        { q_eng: "Which is not a quality of a good test?", q_tel: "మంచి పరీక్షకు ఉండవలసిన లక్షణం కానిది?", options: ["Validity", "Reliability", "Subjectivity", "Objectivity"], ans: 2 },
         { q_eng: "Project method was advocated by?", q_tel: "ప్రాజెక్టు పద్ధతిని ప్రతిపాదించినది ఎవరు?", options: ["John Dewey", "Kilpatrick", "Froebel", "Montessori"], ans: 1 },
         { q_eng: "Comprehensive Evaluation means evaluating?", q_tel: "సమగ్ర మూల్యాంకనం అంటే?", options: ["Only Scholastic", "Only Co-scholastic", "Both Scholastic & Co-scholastic", "Only Sports"], ans: 2 },
         { q_eng: "Globe is which type of aid?", q_tel: "గ్లోబ్ అనేది ఏ రకమైన బోధనోపకరణం?", options: ["2D Aid", "3D Aid", "Audio Aid", "Projected Aid"], ans: 1 },
         { q_eng: "Which is the highest level in Cognitive Domain?", q_tel: "జ్ఞానాత్మక రంగంలో అత్యున్నత స్థాయి?", options: ["Knowledge", "Application", "Evaluation/Creation", "Understanding"], ans: 2 },
-        { q_eng: "Formative Assessment has how many tools?", q_tel: "నిర్మాణాత్మక మూల్యాంకనంలో ఎన్ని సాధనాలు ఉన్నాయి?", options: ["2", "3", "4", "5"], ans: 2 }, // 4 tools
+        { q_eng: "Formative Assessment has how many tools?", q_tel: "నిర్మాణాత్మక మూల్యాంకనంలో ఎన్ని సాధనాలు ఉన్నాయి?", options: ["2", "3", "4", "5"], ans: 2 }, 
         { q_eng: "Inductive method proceeds from?", q_tel: "ఆగమన పద్ధతి దేని నుండి దేనికి వెళ్తుంది?", options: ["General to Specific", "Example to Rule/Generalization", "Rule to Example", "Abstract to Concrete"], ans: 1 },
         { q_eng: "NCC training falls under which curriculum?", q_tel: "NCC శిక్షణ ఏ విద్యా ప్రణాళిక కిందకు వస్తుంది?", options: ["Hidden Curriculum", "Co-curricular activities", "Core Curriculum", "Spiral Curriculum"], ans: 1 },
         { q_eng: "The concept of 'Unit Plan' was introduced by?", q_tel: "'యూనిట్ ప్లాన్' భావనను ప్రవేశపెట్టింది?", options: ["Morrison", "Herbart", "Bloom", "Skinner"], ans: 0 },
