@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TS TET Social Studies (60 Marks)</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #fdf5e6; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #8d6e63; } /* Earthy brown for Social Studies */
+        h1 { text-align: center; color: #5d4037; margin-bottom: 5px; }
+        
+        /* Timer Styles */
+        .timer-bar {
+            position: sticky; top: 0; background: #5d4037; color: #fff; padding: 12px; 
+            text-align: center; font-size: 20px; font-weight: bold; border-radius: 0 0 10px 10px; z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); margin: -25px -25px 20px -25px;
+        }
+        
+        /* Question Styles */
+        .question-box { margin-bottom: 25px; border-bottom: 1px dashed #bbb; padding-bottom: 20px; }
+        .q-header { display: flex; align-items: flex-start; margin-bottom: 10px; }
+        .q-num { background: #8d6e63; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; margin-right: 12px; min-width: 25px; text-align: center; font-size: 14px;}
+        
+        .q-text-eng { font-size: 17px; font-weight: bold; color: #222; display: block; margin-bottom: 5px; }
+        .q-text-tel { font-size: 16px; color: #d84315; font-weight: 600; font-family: 'Gautami', sans-serif; }
+
+        .options { margin-left: 50px; }
+        .options label { 
+            display: block; padding: 8px 12px; cursor: pointer; border-radius: 6px; 
+            transition: 0.2s; border: 1px solid #ddd; margin-bottom: 6px; background: #fff;
+        }
+        .options label:hover { background-color: #efebe9; border-color: #8d6e63; }
+        
+        /* Result Styles */
+        .correct-answer { background-color: #c8e6c9 !important; border: 1px solid #2e7d32 !important; color: #1b5e20; }
+        .wrong-answer { background-color: #ffcdd2 !important; border: 1px solid #c62828 !important; color: #b71c1c; }
+        
+        .explanation { 
+            margin-left: 50px; font-size: 14px; color: #4e342e; margin-top: 8px; 
+            background-color: #d7ccc8; padding: 10px; border-radius: 5px; display: none; 
+        }
+        
+        #result-area { text-align: center; margin-top: 20px; padding: 25px; background: #fff8e1; border-radius: 8px; display: none; border: 2px dashed #ff8f00; }
+        #score-display { font-size: 28px; font-weight: bold; color: #333; margin: 10px 0; }
+        
+        button.submit-btn {
+            background-color: #5d4037; color: white; border: none; padding: 15px 30px; 
+            font-size: 18px; cursor: pointer; border-radius: 5px; width: 100%; margin-top: 20px;
+            font-weight: bold; transition: background 0.3s;
+        }
+        button.submit-btn:hover { background-color: #3e2723; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="timer-bar" id="timer">⏳ Time Left: 45:00</div>
+    
+    <h1>Social Studies / సాంఘిక శాస్త్రం</h1>
+    <p style="text-align:center; color:#666;">TS TET Paper-II (60 Questions - 60 Marks)</p>
+    
+    <form id="quizForm">
+        <div id="questions-container">
+            </div>
+
+        <button type="button" class="submit-btn" onclick="submitQuiz()">Submit Test</button>
+    </form>
+
+    <div id="result-area">
+        <h2>Test Completed!</h2>
+        <div id="score-display"></div>
+        <p>Scroll down to see the correct answers.</p>
+        <button onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; background: #6c757d; color: white; border: none; border-radius: 5px;">Re-take Test</button>
+    </div>
+</div>
+
+<script>
+    // 60 Questions (History, Geography, Civics, Economics, Pedagogy)
+    const questions = [
+        // --- HISTORY ---
+        { q_eng: "The metal first used by man was?", q_tel: "మానవుడు మొదటగా ఉపయోగించిన లోహం?", options: ["Iron (ఇనుము)", "Copper (రాగి)", "Gold (బంగారం)", "Aluminum (అల్యూమినియం)"], ans: 1 },
+        { q_eng: "The Great Bath was found at?", q_tel: "మహాస్నానవాటిక ఎక్కడ బయల్పడింది?", options: ["Harappa", "Mohenjo-daro", "Lothal", "Kalibangan"], ans: 1 },
+        { q_eng: "Who wrote 'Arthashastra'?", q_tel: "'అర్థశాస్త్రం' రచించింది ఎవరు?", options: ["Megasthenes", "Kautilya/Chanakya", "Kalidasa", "Ashoka"], ans: 1 },
+        { q_eng: "Gautama Buddha gave his first sermon at?", q_tel: "గౌతమ బుద్ధుడు తన మొదటి బోధనను ఎక్కడ చేశాడు?", options: ["Bodh Gaya", "Sarnath", "Lumbini", "Kushinagar"], ans: 1 },
+        { q_eng: "The founder of Satavahana dynasty?", q_tel: "శాతవాహన వంశ స్థాపకుడు ఎవరు?", options: ["Gautamiputra Satakarni", "Simuka", "Hala", "Yagnasri"], ans: 1 },
+        { q_eng: "Capital city of Kakatiyas?", q_tel: "కాకతీయుల రాజధాని నగరం?", options: ["Hanamkonda", "Orugallu (Warangal)", "Devagiri", "Dwarasamudra"], ans: 1 },
+        { q_eng: "Who built the Thousand Pillar Temple?", q_tel: "వేయి స్తంభాల గుడిని నిర్మించినది ఎవరు?", options: ["Rudradeva", "Ganapathideva", "Prataparudra", "Rudrama Devi"], ans: 0 },
+        { q_eng: "The Battle of Plassey was fought in the year?", q_tel: "ప్లాసీ యుద్ధం జరిగిన సంవత్సరం?", options: ["1757", "1764", "1857", "1947"], ans: 0 },
+        { q_eng: "Who gave the slogan 'Do or Die'?", q_tel: "'డూ ఆర్ డై' (చేయు లేదా చావండి) నినాదం ఇచ్చింది ఎవరు?", options: ["Subhash Chandra Bose", "Mahatma Gandhi", "Nehru", "Bhagat Singh"], ans: 1 },
+        { q_eng: "The last Nizam of Hyderabad?", q_tel: "హైదరాబాద్ చివరి నిజాం రాజు?", options: ["Mir Osman Ali Khan", "Mir Mahboob Ali Khan", "Nizam Ali Khan", "Sikandar Jah"], ans: 0 },
+        { q_eng: "Vande Mataram movement started against?", q_tel: "వందేమాతరం ఉద్యమం దేనికి వ్యతిరేకంగా జరిగింది?", options: ["Salt Tax", "Partition of Bengal (1905)", "Jallianwala Bagh", "Simon Commission"], ans: 1 },
+        { q_eng: "Who founded 'Arya Samaj'?", q_tel: "'ఆర్య సమాజం' స్థాపకుడు ఎవరు?", options: ["Raja Ram Mohan Roy", "Swami Dayananda Saraswati", "Vivekananda", "Ishwar Chandra Vidyasagar"], ans: 1 },
+        { q_eng: "Which king earned the title 'Andhra Bhoja'?", q_tel: "'ఆంధ్ర భోజుడు' అనే బిరుదు పొందిన రాజు?", options: ["Sri Krishnadevaraya", "Rajaraja Narendra", "Pulakesin II", "Rudradeva"], ans: 0 },
+        { q_eng: "The year of Telangana Armed Struggle?", q_tel: "తెలంగాణ సాయుధ పోరాటం ప్రారంభమైన సంవత్సరం?", options: ["1946", "1952", "1969", "2001"], ans: 0 },
+        { q_eng: "First War of Indian Independence?", q_tel: "మొదటి భారత స్వాతంత్ర్య సంగ్రామం?", options: ["1857 Revolt", "Non-Cooperation", "Civil Disobedience", "Quit India"], ans: 0 },
+
+        // --- GEOGRAPHY ---
+        { q_eng: "Which planet is known as the 'Blue Planet'?", q_tel: "'నీలి గ్రహం' అని దేనిని పిలుస్తారు?", options: ["Mars", "Earth", "Jupiter", "Venus"], ans: 1 },
+        { q_eng: "The imaginary lines running from North to South Pole are?", q_tel: "ఉత్తర ధృవం నుండి దక్షిణ ధృవం వరకు గీసిన ఊహా రేఖలు?", options: ["Latitudes (అక్షాంశాలు)", "Longitudes (రేఖాంశాలు)", "Equator", "Tropic of Cancer"], ans: 1 },
+        { q_eng: "The standard time of India is calculated from?", q_tel: "భారత ప్రామాణిక కాలాన్ని (IST) ఏ రేఖాంశం ఆధారంగా గణిస్తారు?", options: ["82°30' E", "82°30' W", "23°30' N", "0° Greenwich"], ans: 0 },
+        { q_eng: "Which layer of atmosphere contains the Ozone layer?", q_tel: "ఓజోన్ పొర వాతావరణంలోని ఏ పొరలో ఉంటుంది?", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], ans: 1 },
+        { q_eng: "The longest river in Peninsular India (Dakshin Ganga)?", q_tel: "ద్వీపకల్ప భారతదేశంలో అతి పొడవైన నది?", options: ["Krishna", "Godavari", "Cauvery", "Mahanadi"], ans: 1 },
+        { q_eng: "Black soils are most suitable for which crop?", q_tel: "నల్లరేగడి నేలలు ఏ పంటకు అనుకూలం?", options: ["Rice", "Cotton (పత్తి)", "Tea", "Wheat"], ans: 1 },
+        { q_eng: "The Palk Strait separates India from?", q_tel: "పాక్ జలసంధి భారతదేశాన్ని ఏ దేశం నుండి వేరు చేస్తుంది?", options: ["Pakistan", "Sri Lanka", "Maldives", "Bangladesh"], ans: 1 },
+        { q_eng: "Which is the highest peak in Telangana?", q_tel: "తెలంగాణలో ఎత్తైన శిఖరం?", options: ["Doli Gutta", "Anamudi", "Doddabetta", "Armakonda"], ans: 0 }, // Doli Gutta in Jayashankar Bhupalpally/Mulugu
+        { q_eng: "Tsunami is caused by?", q_tel: "సునామీ దేని వల్ల ఏర్పడుతుంది?", options: ["Undersea Earthquakes", "Winds", "Tides", "Cyclones"], ans: 0 },
+        { q_eng: "Kharif season starts in?", q_tel: "ఖరీఫ్ పంట కాలం ఎప్పుడు మొదలవుతుంది?", options: ["June-July", "October-November", "January-February", "March-April"], ans: 0 },
+        { q_eng: "Which river flows through a rift valley?", q_tel: "పగులు లోయ గుండా ప్రవహించే నది?", options: ["Ganga", "Narmada", "Godavari", "Yamuna"], ans: 1 },
+        { q_eng: "The instrument used to measure atmospheric pressure?", q_tel: "వాతావరణ పీడనాన్ని కొలిచే పరికరం?", options: ["Thermometer", "Barometer", "Hygrometer", "Anemometer"], ans: 1 },
+        { q_eng: "Largest continent in the world?", q_tel: "ప్రపంచంలో అతి పెద్ద ఖండం?", options: ["Africa", "Asia", "North America", "Europe"], ans: 1 },
+        { q_eng: "Nagarjuna Sagar Project is built on which river?", q_tel: "నాగార్జున సాగర్ ప్రాజెక్టు ఏ నదిపై ఉంది?", options: ["Godavari", "Krishna", "Tungabhadra", "Penna"], ans: 1 },
+        { q_eng: "Coal is which type of rock?", q_tel: "బొగ్గు ఏ రకమైన శిల?", options: ["Igneous", "Sedimentary (అవక్షేప)", "Metamorphic", "None"], ans: 1 },
+
+        // --- CIVICS ---
+        { q_eng: "Who is known as the Father of Indian Constitution?", q_tel: "భారత రాజ్యాంగ పితామహుడు ఎవరు?", options: ["Mahatma Gandhi", "Dr. B.R. Ambedkar", "Jawaharlal Nehru", "Sardar Patel"], ans: 1 },
+        { q_eng: "Fundamental Rights are borrowed from?", q_tel: "ప్రాథమిక హక్కులను ఏ దేశ రాజ్యాంగం నుండి గ్రహించారు?", options: ["UK", "USA", "Russia", "Ireland"], ans: 1 },
+        { q_eng: "Right to Information Act came into force in?", q_tel: "సమాచార హక్కు చట్టం ఎప్పుడు అమల్లోకి వచ్చింది?", options: ["2002", "2005", "2010", "1995"], ans: 1 },
+        { q_eng: "Minimum age to become the President of India?", q_tel: "భారత రాష్ట్రపతి కావడానికి కనీస వయస్సు?", options: ["25 years", "30 years", "35 years", "40 years"], ans: 2 },
+        { q_eng: "How many members are nominated by President to Rajya Sabha?", q_tel: "రాజ్యసభకు రాష్ట్రపతి ఎంతమందిని నామినేట్ చేస్తారు?", options: ["2", "10", "12", "15"], ans: 2 },
+        { q_eng: "The term of a Gram Panchayat is?", q_tel: "గ్రామ పంచాయతీ పదవీ కాలం?", options: ["4 years", "5 years", "6 years", "3 years"], ans: 1 },
+        { q_eng: "Who is the head of the State Executive?", q_tel: "రాష్ట్ర కార్యనిర్వాహక శాఖాధిపతి ఎవరు?", options: ["Chief Minister", "Governor", "Chief Justice", "Speaker"], ans: 1 },
+        { q_eng: "The preamble begins with the words?", q_tel: "రాజ్యాంగ పీఠిక ఏ పదాలతో మొదలవుతుంది?", options: ["We, the People of India", "Bharat Mata Ki Jai", "Satyameva Jayate", "India, that is Bharat"], ans: 0 },
+        { q_eng: "Who acts as the guardian of Fundamental Rights?", q_tel: "ప్రాథమిక హక్కుల సంరక్షకుడు ఎవరు?", options: ["Parliament", "President", "Supreme Court", "Police"], ans: 2 },
+        { q_eng: "Article 21A deals with?", q_tel: "ఆర్టికల్ 21A దేనికి సంబంధించింది?", options: ["Right to Religion", "Right to Education", "Right to Equality", "Right to Speech"], ans: 1 },
+
+        // --- ECONOMICS ---
+        { q_eng: "Which sector is called the backbone of Indian Economy?", q_tel: "భారత ఆర్థిక వ్యవస్థకు వెన్నెముక అని దేనిని అంటారు?", options: ["Service Sector", "Agriculture Sector", "Industrial Sector", "IT Sector"], ans: 1 },
+        { q_eng: "Reserve Bank of India (RBI) was established in?", q_tel: "రిజర్వ్ బ్యాంక్ ఆఫ్ ఇండియా (RBI) ఎప్పుడు స్థాపించబడింది?", options: ["1935", "1947", "1950", "1991"], ans: 0 },
+        { q_eng: "Example of a direct tax?", q_tel: "ప్రత్యక్ష పన్నుకు ఉదాహరణ?", options: ["GST", "Sales Tax", "Income Tax", "Excise Duty"], ans: 2 },
+        { q_eng: "White Revolution is related to?", q_tel: "శ్వేత విప్లవం (White Revolution) దేనికి సంబంధించింది?", options: ["Rice", "Milk", "Eggs", "Cotton"], ans: 1 },
+        { q_eng: "SHG stands for?", q_tel: "SHG అనగా?", options: ["State Housing Group", "Self Help Group", "Small Health Group", "Social Help Group"], ans: 1 },
+
+        // --- PEDAGOGY (Methodology) ---
+        { q_eng: "Who said 'Man is a social animal'?", q_tel: "'మానవుడు ఒక సంఘజీవి' అని అన్నదెవరు?", options: ["Socrates", "Aristotle", "Plato", "Rousseau"], ans: 1 },
+        { q_eng: "Which method is also known as 'Lecture Method'?", q_tel: "'ఉపన్యాస పద్ధతి'కి గల మరొక పేరు?", options: ["Chalk and Talk Method", "Project Method", "Heuristic Method", "Source Method"], ans: 0 },
+        { q_eng: "Micro-teaching focuses on?", q_tel: "సూక్ష్మ బోధన (Micro-teaching) దీనిపై దృష్టి పెడుతుంది?", options: ["Content mastery", "Specific teaching skill", "Classroom management", "All the above"], ans: 1 },
+        { q_eng: "Edgar Dale's Cone of Experience is related to?", q_tel: "ఎడ్గార్ డేల్ అనుభవ శంకువు దేనికి సంబంధించింది?", options: ["Evaluation", "TLM (Teaching Learning Material)", "Curriculum", "Objectives"], ans: 1 },
+        { q_eng: "Which is not a quality of a good test?", q_tel: "మంచి పరీక్షకు ఉండవలసిన లక్షణం కానిది?", options: ["Validity", "Reliability", "Subjectivity", "Objectivity"], ans: 2 }, // Subjectivity is bad
+        { q_eng: "Project method was advocated by?", q_tel: "ప్రాజెక్టు పద్ధతిని ప్రతిపాదించినది ఎవరు?", options: ["John Dewey", "Kilpatrick", "Froebel", "Montessori"], ans: 1 },
+        { q_eng: "Comprehensive Evaluation means evaluating?", q_tel: "సమగ్ర మూల్యాంకనం అంటే?", options: ["Only Scholastic", "Only Co-scholastic", "Both Scholastic & Co-scholastic", "Only Sports"], ans: 2 },
+        { q_eng: "Globe is which type of aid?", q_tel: "గ్లోబ్ అనేది ఏ రకమైన బోధనోపకరణం?", options: ["2D Aid", "3D Aid", "Audio Aid", "Projected Aid"], ans: 1 },
+        { q_eng: "Which is the highest level in Cognitive Domain?", q_tel: "జ్ఞానాత్మక రంగంలో అత్యున్నత స్థాయి?", options: ["Knowledge", "Application", "Evaluation/Creation", "Understanding"], ans: 2 },
+        { q_eng: "Formative Assessment has how many tools?", q_tel: "నిర్మాణాత్మక మూల్యాంకనంలో ఎన్ని సాధనాలు ఉన్నాయి?", options: ["2", "3", "4", "5"], ans: 2 }, // 4 tools
+        { q_eng: "Inductive method proceeds from?", q_tel: "ఆగమన పద్ధతి దేని నుండి దేనికి వెళ్తుంది?", options: ["General to Specific", "Example to Rule/Generalization", "Rule to Example", "Abstract to Concrete"], ans: 1 },
+        { q_eng: "NCC training falls under which curriculum?", q_tel: "NCC శిక్షణ ఏ విద్యా ప్రణాళిక కిందకు వస్తుంది?", options: ["Hidden Curriculum", "Co-curricular activities", "Core Curriculum", "Spiral Curriculum"], ans: 1 },
+        { q_eng: "The concept of 'Unit Plan' was introduced by?", q_tel: "'యూనిట్ ప్లాన్' భావనను ప్రవేశపెట్టింది?", options: ["Morrison", "Herbart", "Bloom", "Skinner"], ans: 0 },
+        { q_eng: "Blackboard summary is a skill of?", q_tel: "నల్లబల్ల పని నైపుణ్యం దేనికి చెందుతుంది?", options: ["Introduction", "Closure", "Explanation", "All the above"], ans: 2 },
+        { q_eng: "Heuristic method is discovered by?", q_tel: "అన్వేషణ పద్ధతిని కనుగొన్నది?", options: ["H.E. Armstrong", "Kilpatrick", "Stevenson", "Socrates"], ans: 0 }
+    ];
+
+    const container = document.getElementById('questions-container');
+
+    // Load Questions
+    questions.forEach((item, index) => {
+        const qDiv = document.createElement('div');
+        qDiv.classList.add('question-box');
+        
+        let optionsHtml = '';
+        item.options.forEach((opt, i) => {
+            optionsHtml += `
+                <label id="q${index}_opt${i}">
+                    <input type="radio" name="q${index}" value="${i}"> 
+                    <span style="margin-left:8px;">${opt}</span>
+                </label>`;
+        });
+
+        qDiv.innerHTML = `
+            <div class="q-header">
+                <div class="q-num">Q${index + 1}</div>
+                <div>
+                    <span class="q-text-eng">${item.q_eng}</span>
+                    <span class="q-text-tel">${item.q_tel}</span>
+                </div>
+            </div>
+            <div class="options">${optionsHtml}</div>
+            <div id="ans${index}" class="explanation"></div>
+        `;
+        container.appendChild(qDiv);
+    });
+
+    // Timer Logic (45 Minutes)
+    let time = 45 * 60; 
+    const timerElement = document.getElementById('timer');
+    
+    const countdown = setInterval(() => {
+        const minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        
+        timerElement.innerHTML = `⏳ Time Left: ${minutes}:${seconds}`;
+        
+        if (time <= 0) {
+            clearInterval(countdown);
+            submitQuiz();
+            alert("Time's up! Test submitted automatically.");
+        } else {
+            time--;
+        }
+    }, 1000);
+
+    // Submit Logic
+    function submitQuiz() {
+        clearInterval(countdown);
+        let score = 0;
+        
+        questions.forEach((item, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const ansDiv = document.getElementById(`ans${index}`);
+            const correctOptIndex = item.ans;
+            
+            // Disable inputs
+            const inputs = document.getElementsByName(`q${index}`);
+            inputs.forEach(input => input.disabled = true);
+
+            // Highlight Correct Answer
+            const correctLabel = document.getElementById(`q${index}_opt${correctOptIndex}`);
+            if(correctLabel) {
+                correctLabel.classList.add('correct-answer');
+                correctLabel.innerHTML += ' ✅';
+            }
+
+            if (selected) {
+                const userVal = parseInt(selected.value);
+                if (userVal === correctOptIndex) {
+                    score++;
+                } else {
+                    // Highlight Wrong Answer
+                    const selectedLabel = document.getElementById(`q${index}_opt${userVal}`);
+                    selectedLabel.classList.add('wrong-answer');
+                    selectedLabel.innerHTML += ' ❌';
+                }
+            }
+            
+            // Show correct answer text
+            ansDiv.style.display = 'block';
+            ansDiv.innerHTML = `<strong>Correct Answer:</strong> ${item.options[correctOptIndex]}`;
+        });
+
+        // Show Result
+        document.querySelector('.submit-btn').style.display = 'none';
+        document.getElementById('result-area').style.display = 'block';
+        
+        const percentage = Math.round((score / questions.length) * 100);
+        let msg = "";
+        if(percentage >= 85) msg = "Outstanding Performance! 🌟";
+        else if(percentage >= 70) msg = "Excellent Work! Keep it up. 👍";
+        else if(percentage >= 50) msg = "Good Effort. Needs Revision. 📚";
+        else msg = "Work Hard. Practice more. 💪";
+
+        document.getElementById('score-display').innerHTML = `
+            Score: ${score} / ${questions.length} <br>
+            <span style="font-size:18px; color:#555;">(${percentage}%) - ${msg}</span>
+        `;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
